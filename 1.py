@@ -11,5 +11,7 @@ for x in xrange(0, 1000):
 		total += x
 print total
  
+r = np.array(xrange(0,1000))
 
-
+np_total = r[np.mod(r, 3)==0].sum() + r[np.mod(r, 5)==0].sum() - r[np.mod(r, 15)==0].sum()
+print np_total
