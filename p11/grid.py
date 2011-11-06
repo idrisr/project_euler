@@ -23,23 +23,27 @@ grid = [
 [20,73,35,29,78,31,90,01,74,31,49,71,48,86,81,16,23,57,05,54],
 [01,70,54,71,83,51,54,69,16,92,33,48,61,43,52,01,89,19,67,48]]
 
-s = [
-[1, 2, 3, 4], 
-[5, 6, 7, 8], 
-[9, 10, 11, 12], 
-[13, 14, 15, 16]]
-
-small = np.array(s)
 grid = np.array(grid)
 
-def diagonal(grid):
-    pass
+def diagonal(grid, n):
+    """checks for product along diagonal of length n"""
+    #pdb.set_trace()
+    diags = grid.shape[0] - n
+    max_prod = 0 
+    for i in xrange(-diags, diags+1):
+        slice_ = grid.diagonal(i)
+        for j in xrange(0, len(slice_) - n + 1):
+            prod = slice_[j:n+j].prod()
+            if prod > max_prod:
+                max_prod = prod
+    return max_prod
 
-def row(grid, axis, n):
+def prod_axis(grid, axis, n):
     """checks for product along grid axis of length n"""
     #pdb.set_trace()
     size_1 = grid.shape[axis]
     size_2 = grid.shape[not axis]
+    max_prod = 0
     for j in xrange(0, size_2):
         if axis == 0:
             slice_ = grid[j,:]
@@ -47,11 +51,17 @@ def row(grid, axis, n):
             slice_ = grid[:,j]
         for i in xrange(0, size_1 - n + 1):
             prod = slice_[i:n+i].prod()
-            print 'slice:%r, prod:%s' % (slice_[i:n+i], prod)
-            raw_input('>')
-
-def column(grid):
-    pass
+            if prod > max_prod:
+                max_prod = prod
+                #print 'slice:%r, prod:%s' % (slice_[i:n+i], prod)
+    return max_prod
 
 if __name__ == '__main__':
-    row(small, 1, 3)
+    maxs = []
+    maxs.append(prod_axis(grid, 0, 4))
+    maxs.append(prod_axis(grid, 1, 4))
+    maxs.append(diagonal(grid, 4))
+    maxs.append(diagonal(grid[:,::-1], 4))
+    maxs.sort[]
+    print maxs[-1]
+
